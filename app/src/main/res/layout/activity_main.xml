@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient"
+    tools:context="io.shriram.country.MainActivity">
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/recyclerview"
+        android:layout_marginTop="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true">
+    </android.support.v7.widget.RecyclerView>
+
+    <ProgressBar
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/pb"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="5dp"
+        />
+
+    <RelativeLayout
+        android:layout_width="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/recyclerview"
+        android:layout_height="40dp">
+        <Button
+            android:layout_height="match_parent"
+            android:text="sync"
+            android:onClick="sync"
+            android:background="@drawable/buttons_bk"
+            android:textColor="#ffffff"
+            android:id="@+id/bt"
+            android:layout_width="match_parent"
+            />
+
+        <ProgressBar
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/pb2"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="5dp"
+            />
+
+    </RelativeLayout>
+
+
+
+</RelativeLayout>
