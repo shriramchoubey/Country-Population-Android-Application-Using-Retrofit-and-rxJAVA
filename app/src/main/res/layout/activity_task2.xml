@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/cordinator"
+    tools:context="io.shriram.country.Task2">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="16dp"
+        android:layout_below="@id/recyclerview"
+        android:layout_height="match_parent">
+        <Button
+            android:layout_height="40dp"
+            android:text="sync"
+            android:onClick="sync"
+            android:background="@drawable/buttons_bk"
+            android:textColor="#ffffff"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/bt"
+            android:layout_width="100dp"
+            />
+
+        <ProgressBar
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/pb2"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="5dp"
+            />
+<ImageView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
+    android:id="@+id/iv_file"
+    android:src="@drawable/notfound"/>
+    </RelativeLayout>
+
+
+
+</android.support.design.widget.CoordinatorLayout>
