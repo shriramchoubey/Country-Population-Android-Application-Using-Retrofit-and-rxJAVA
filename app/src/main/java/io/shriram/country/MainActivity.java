@@ -29,16 +29,13 @@ import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
-import org.reactivestreams.Subscription;
-
 import java.util.ArrayList;
 import java.util.List;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
-import io.reactivex.subjects.PublishSubject;
-import io.shriram.country.Model.Contacts;
 import io.shriram.country.Model.Country;
 import io.shriram.country.common.ResponseClass;
 import retrofit2.Retrofit;
@@ -46,15 +43,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity{
     private ArrayList<Country> arraylist= new ArrayList<>();
-    private ArrayList<Contacts> Storecontacts = new ArrayList<>();
-    ProgressBar pb,pb2;
-    Button bt_sync;
+    ProgressBar pb;
     private RecyclerView recyclerview;
     public static final String BASE_URL = "http://www.androidbegin.com/tutorial/";
 
-    public  static final int RequestPermissionCode  = 1 ;
-    private Cursor cursor ;
-    private String name, phonenumber ;
     private CompositeDisposable mCompositeDisposable;
 
 
@@ -66,7 +58,6 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("population");
-        O
         recyclerview = (RecyclerView) findViewById(R.id.recyclerview);
         recyclerview.addOnItemTouchListener( new RecyclerItemClickListener(MainActivity.this, new RecyclerItemClickListener.OnItemClickListener() {
             @Override public void onItemClick(View view, int position) {
@@ -80,15 +71,10 @@ public class MainActivity extends AppCompatActivity{
 
             }
         }));
-        //initialising sync button
-        bt_sync = (Button) findViewById(R.id.bt);
-
 
         //initialising progressbar
         pb = (ProgressBar) findViewById(R.id.pb);
-        pb2 = (ProgressBar) findViewById(R.id.pb2);
         pb.setVisibility(View.VISIBLE);
-        pb2.setVisibility(View.INVISIBLE);
 
         mCompositeDisposable = new CompositeDisposable();
 
@@ -96,59 +82,9 @@ public class MainActivity extends AppCompatActivity{
         loadJSON();
 
 
-
-    }
-
-    //function to sync data
-    public void sync(View v){
-        bt_sync.setVisibility(View.INVISIBLE);
-        pb2.setVisibility(View.VISIBLE);
-        PublishSubject contactpipe = PublishSubject.create();
-
-        Thread thread = new Thread()
-        {
-            @Override
-            public void run() {
-                try {
-                    while(true) {
-                        sleep(1000);
-                        GetContactsIntoArrayList();
-                    }
-                } catch (InterruptedException e) {
-                    Toast.makeText(getBaseContext(), e.toString(), Toast.LENGTH_LONG).show();
-                }
-            }
-        };
-
-        thread.start();
-    }
-
-    //subscribes to new thread
-    public void contactReader(){
-
     }
 
 
-
-    //Get All the contacts and show save them in the CSV format;
-    public void GetContactsIntoArrayList(){
-       // EnableRuntimePermission();
-        cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,null, null, null);
-        String s="";
-        while (cursor.moveToNext()) {
-
-            name = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-
-            phonenumber = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-
-            Storecontacts.add(new Contacts(name,phonenumber));
-            s+=name+" : "+phonenumber+"\n";
-        }
-        Log.d("Contacts : \n",s);
-
-        cursor.close();
-//        bt_sync.setVisibility(View.VISIBLE);
-    }
 
     // showing the contents of countries list through arraylist
     public void initRecycler(ArrayList<Country> data){
@@ -202,12 +138,18 @@ public class MainActivity extends AppCompatActivity{
 
     }
 
-
+    //loading next
+    public void next(View v){
+        Intent intent = new Intent(MainActivity.this,Task2.class);
+        startActivity(intent);
+        this.finish();
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();
         mCompositeDisposable.clear();
     }
+
 
 
     public static class RecyclerCustomAdapter extends
@@ -301,43 +243,5 @@ public class MainActivity extends AppCompatActivity{
             }
         }
     }
-
-    public void EnableRuntimePermission(){
-
-        if (ActivityCompat.shouldShowRequestPermissionRationale(
-                MainActivity.this,
-                Manifest.permission.READ_CONTACTS))
-        {
-
-            Toast.makeText(MainActivity.this,"CONTACTS permission allows us to Access CONTACTS app", Toast.LENGTH_LONG).show();
-
-        } else {
-
-            ActivityCompat.requestPermissions(MainActivity.this,new String[]{
-                    Manifest.permission.READ_CONTACTS}, RequestPermissionCode);
-
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int RC, String per[], int[] PResult) {
-
-        switch (RC) {
-
-            case RequestPermissionCode:
-
-                if (PResult.length > 0 && PResult[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    Toast.makeText(MainActivity.this,"Permission Granted, Now your application can access CONTACTS.", Toast.LENGTH_LONG).show();
-
-                } else {
-
-                    Toast.makeText(MainActivity.this,"Permission Canceled, Now your application cannot access CONTACTS.", Toast.LENGTH_LONG).show();
-
-                }
-                break;
-        }
-    }
-
 
 }
