@@ -36,6 +36,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
+import io.shriram.country.Checkers.InternetChecker;
 import io.shriram.country.Model.Country;
 import io.shriram.country.common.ResponseClass;
 import retrofit2.Retrofit;
@@ -43,7 +44,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity{
     private ArrayList<Country> arraylist= new ArrayList<>();
-    ProgressBar pb;
+    private ProgressBar pb;
     private RecyclerView recyclerview;
     public static final String BASE_URL = "http://www.androidbegin.com/tutorial/";
 
@@ -58,6 +59,8 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("population");
+
+        //creating recycler view
         recyclerview = (RecyclerView) findViewById(R.id.recyclerview);
         recyclerview.addOnItemTouchListener( new RecyclerItemClickListener(MainActivity.this, new RecyclerItemClickListener.OnItemClickListener() {
             @Override public void onItemClick(View view, int position) {
@@ -79,11 +82,13 @@ public class MainActivity extends AppCompatActivity{
         mCompositeDisposable = new CompositeDisposable();
 
         //loading Data from data source
-        loadJSON();
-
+        if(InternetChecker.isNetworkAvailable(MainActivity.this)){
+            loadJSON();
+        }else{
+            Toast.makeText(this, "Please check Internet Connection!", Toast.LENGTH_SHORT).show();
+        }
 
     }
-
 
 
     // showing the contents of countries list through arraylist
@@ -138,20 +143,8 @@ public class MainActivity extends AppCompatActivity{
 
     }
 
-    //loading next
-    public void next(View v){
-        Intent intent = new Intent(MainActivity.this,Task2.class);
-        startActivity(intent);
-        this.finish();
-    }
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mCompositeDisposable.clear();
-    }
 
-
-
+    // Creating custom RecyclerView Adapter class
     public static class RecyclerCustomAdapter extends
             RecyclerView.Adapter<RecyclerCustomAdapter.ViewHolder> {
 
@@ -242,6 +235,19 @@ public class MainActivity extends AppCompatActivity{
 
             }
         }
+    }
+
+    //loading Task 2 on Button Click
+    public void next(View v){
+        Intent intent = new Intent(MainActivity.this,Task2.class);
+        startActivity(intent);
+        this.finish();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mCompositeDisposable.clear();
     }
 
 }
