@@ -37,7 +37,7 @@
     android:layout_centerHorizontal="true"
     android:layout_centerVertical="true"
     android:id="@+id/iv_file"
-    android:src="@drawable/notfound"/>
+    android:src="@drawable/imagefile"/>
     </RelativeLayout>
 
 
