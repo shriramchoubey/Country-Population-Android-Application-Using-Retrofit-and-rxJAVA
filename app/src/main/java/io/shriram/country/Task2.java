@@ -264,10 +264,10 @@ public class Task2 extends AppCompatActivity {
                // File file = readWrite.readItems("contacts.csv",getDir("Co")));
 
                 i.setAction(android.content.Intent.ACTION_VIEW);
-               // i.setDataAndType(FileProvider.getUriForFile(Task2.this, BuildConfig.APPLICATION_ID,new File(ZIP_FILE_NAME)), "application/zip");
-                //i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                //i.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-                i.setDataAndType(Uri.fromFile(new File(ZIP_FILE_NAME)),"application/zip");
+                i.setDataAndType(FileProvider.getUriForFile(Task2.this, BuildConfig.APPLICATION_ID,new File(ZIP_FILE_NAME)), "application/zip");
+                i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                i.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                //i.setDataAndType(Uri.fromFile(new File(ZIP_FILE_NAME)),"application/zip");
                 PackageManager pm = Task2.this.getPackageManager();
                 if (i.resolveActivity(pm) != null) {
                     startActivity(i);

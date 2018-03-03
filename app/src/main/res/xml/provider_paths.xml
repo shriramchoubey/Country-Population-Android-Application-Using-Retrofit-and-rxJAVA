@@ -2,4 +2,5 @@
 <paths xmlns:android="http://schemas.android.com/apk/res/android">
     <external-path name="sdcard" path="/"/>
     <external-files-path name="sdcard" path="." />
+    <root-path name="/storage/sdcard/" path="." />
 </paths>
